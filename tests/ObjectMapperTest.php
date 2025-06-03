@@ -49,4 +49,33 @@ class ObjectMapperTest extends TestCase
 
         $changedDestination = ObjectMapper::map($source, $destination);
     }
+
+    /**
+     * @throws ObjectMapperException
+     */
+    public function testMapImmutable()
+    {
+        $source = new SourceTestClassWithNoAttributes();
+        $source->testPropInt = 43;
+        $destination = new DestinationTestClass();
+
+        $changedDestination = ObjectMapper::mapImmutable($source, $destination);
+        $this->assertInstanceOf(DestinationTestClass::class, $changedDestination);
+        $this->assertEquals(43, $changedDestination->testPropInt);
+        $this->assertNull($changedDestination->testPropString);
+    }
+
+    /**
+     * @throws ObjectMapperException
+     */
+    public function testMap()
+    {
+        $source = new SourceTestClassWithNoAttributes();
+        $source->testPropInt = 43;
+        $destination = new DestinationTestClass();
+
+        ObjectMapper::map($source, $destination);
+        $this->assertInstanceOf(DestinationTestClass::class, $destination);
+        $this->assertEquals(43, $destination->testPropInt);
+    }
 }

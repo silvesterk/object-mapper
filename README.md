@@ -25,20 +25,38 @@ composer require silvesterk/object-mapper
 
 ## Usage
 
-### Basic Mapping
+### Basic Mutable Mapping
 
 ```php
 use Silvesterk\ObjectMapper\ObjectMapper;
 use Silvesterk\ObjectMapper\Tests\TestClass\SourceTestClassWithNoAttributes;
 use Silvesterk\ObjectMapper\Tests\TestClass\DestinationTestClass;
 
-$source = new SourceTestClass();
+$source = new SourceTestClassWithNoAttributes();
 $source->testProp = 42;
 
 $destination = new DestinationTestClass();
-$mappedObject = ObjectMapper::map($source, $destination);
 
-echo $mappedObject->testProp; // Outputs: 42
+ObjectMapper::map($source, $destination);
+
+echo $destination->testProp; // Outputs: 42
+```
+
+### Immutable Mapping
+
+```php
+use Silvesterk\ObjectMapper\ObjectMapper;
+use Silvesterk\ObjectMapper\Tests\TestClass\SourceTestClassWithNoAttributes;
+use Silvesterk\ObjectMapper\Tests\TestClass\DestinationTestClass;
+
+$source = new SourceTestClassWithNoAttributes();
+$source->testProp = 42;
+
+$destination = new DestinationTestClass();
+
+$newDestination = ObjectMapper::mapImmutable($source, $destination);
+
+echo $newDestination->testProp; // Outputs: 42
 ```
 
 ### Mapping with Attributes
@@ -61,7 +79,7 @@ $source = new SourceTestClassWithTargetAttribute();
 $source->testProp = 42;
 
 $destination = new DestinationTestClass();
-$mappedObject = ObjectMapper::map($source, $destination);
+$mappedObject = ObjectMapper::mapImmutable($source, $destination);
 
 echo $mappedObject->differentProp; // Outputs: 42
 ```
@@ -83,7 +101,7 @@ $source->testPropInt = 'Invalid Type';
 $destination = new DestinationTestClass();
 
 try {
-    ObjectMapper::map($source, $destination);
+    ObjectMapper::mapImmutable($source, $destination);
 } catch (ObjectMapperException $e) {
     echo $e->getMessage(); // Outputs the error message
 }
