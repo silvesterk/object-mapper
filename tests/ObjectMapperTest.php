@@ -12,13 +12,6 @@ use Silvesterk\ObjectMapper\Tests\TestClass\SourceTestClassWithWrongDataType;
 
 class ObjectMapperTest extends TestCase
 {
-    private readonly ObjectMapper $objectMapper;
-
-    public function setUp(): void
-    {
-        $this->objectMapper = new ObjectMapper();
-    }
-
     /**
      * @throws ObjectMapperException
      */
@@ -28,7 +21,7 @@ class ObjectMapperTest extends TestCase
         $source->testPropInt = 43;
         $destination = new DestinationTestClass();
 
-        $changedDestination = $this->objectMapper->map($source, $destination);
+        $changedDestination = ObjectMapper::map($source, $destination);
         $this->assertInstanceOf(DestinationTestClass::class, $changedDestination);
         $this->assertEquals(43, $changedDestination->testPropInt);
         $this->assertNull($changedDestination->testPropString);
@@ -40,7 +33,7 @@ class ObjectMapperTest extends TestCase
         $source->testPropWithAttribute = 43;
         $destination = new DestinationTestClass();
 
-        $changedDestination = $this->objectMapper->map($source, $destination);
+        $changedDestination = ObjectMapper::map($source, $destination);
         $this->assertInstanceOf(DestinationTestClass::class, $changedDestination);
         $this->assertEquals(43, $changedDestination->testPropInt);
         $this->assertNull($changedDestination->testPropString);
@@ -54,6 +47,6 @@ class ObjectMapperTest extends TestCase
 
         $this->expectException(ObjectMapperException::class);
 
-        $changedDestination = $this->objectMapper->map($source, $destination);
+        $changedDestination = ObjectMapper::map($source, $destination);
     }
 }

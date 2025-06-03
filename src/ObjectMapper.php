@@ -7,9 +7,6 @@ use Silvesterk\ObjectMapper\Exception\ObjectMapperException;
 class ObjectMapper
 {
     /**
-     * @throws ObjectMapperException
-     */
-    /**
      * @template T
      * Maps properties from the source object to the target object.
      *
@@ -18,7 +15,7 @@ class ObjectMapper
      * @return T The target object with mapped values.
      * @throws ObjectMapperException If an error occurs during mapping.
      */
-    public function map(object $source, object $target)
+    public static function map(object $source, object $target)
     {
         $targetClone = clone $target;
         try {

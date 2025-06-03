@@ -32,13 +32,11 @@ use Silvesterk\ObjectMapper\ObjectMapper;
 use Silvesterk\ObjectMapper\Tests\TestClass\SourceTestClassWithNoAttributes;
 use Silvesterk\ObjectMapper\Tests\TestClass\DestinationTestClass;
 
-$objectMapper = new ObjectMapper();
-
 $source = new SourceTestClass();
 $source->testProp = 42;
 
 $destination = new DestinationTestClass();
-$mappedObject = $objectMapper->map($source, $destination);
+$mappedObject = ObjectMapper::map($source, $destination);
 
 echo $mappedObject->testProp; // Outputs: 42
 ```
@@ -58,13 +56,12 @@ class SourceTestClassWithTargetAttribute
     public ?int $testProp = null;
 }
 
-$objectMapper = new ObjectMapper();
 
 $source = new SourceTestClassWithTargetAttribute();
 $source->testProp = 42;
 
 $destination = new DestinationTestClass();
-$mappedObject = $objectMapper->map($source, $destination);
+$mappedObject = ObjectMapper::map($source, $destination);
 
 echo $mappedObject->differentProp; // Outputs: 42
 ```
@@ -79,7 +76,6 @@ use Silvesterk\ObjectMapper\Exception\ObjectMapperException;
 use Silvesterk\ObjectMapper\Tests\TestClass\SourceTestClassWithWrongDataType;
 use Silvesterk\ObjectMapper\Tests\TestClass\DestinationTestClass;
 
-$objectMapper = new ObjectMapper();
 
 $source = new SourceTestClassWithWrongDataType();
 $source->testPropInt = 'Invalid Type';
@@ -87,7 +83,7 @@ $source->testPropInt = 'Invalid Type';
 $destination = new DestinationTestClass();
 
 try {
-    $objectMapper->map($source, $destination);
+    ObjectMapper::map($source, $destination);
 } catch (ObjectMapperException $e) {
     echo $e->getMessage(); // Outputs the error message
 }
